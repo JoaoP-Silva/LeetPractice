@@ -7,22 +7,19 @@ using namespace std;
 int maxSubArray(vector<int>& nums) {
     if(nums.empty()){return 0;}
 
-    vector<int> sumArray;
-    int sum = nums[0]; sumArray.push_back(nums[0]);
-    int subArrayInitIdx = 0, subArrayEndIdx = 0, auxIdx, greatestSum = sumArray[0];
+    int sum = nums[0];
+    int subArrayInitIdx = 0, subArrayEndIdx = 0, auxIdx, greatestSum = nums[0];
 
     for(int i = 1; i < nums.size(); i++){
         int newSum = sum + nums[i];
         if(newSum <= nums[i]){
             auxIdx = i;
             sum = nums[i];
-            sumArray.push_back(nums[i]);
         }else{
             sum += nums[i];
-            sumArray.push_back(sum);
         }
-        if(greatestSum < sumArray[i]){ 
-            greatestSum = sumArray[i];
+        if(greatestSum < sum){ 
+            greatestSum = sum;
             subArrayInitIdx = auxIdx; 
             subArrayEndIdx = i;
         }
