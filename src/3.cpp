@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -8,21 +8,29 @@ int lengthOfLongestSubstring(string s)
 {   
     if(s.size() == 0){ return 0; }
 
-    int i = 0, longest = -1;
+    int i = 0, count = 0, longest = -1;
+    int windowBack = -1;
+    unordered_set<char> charSet;
+
     while(i < s.size())
     {
-    unordered_map<char, int> c; int count = 0;
-        auto it = c.find(s[i]);
-        while(it == c.end() && i <  s.size())
+        if(charSet.find(s[i]) == charSet.end())
         {
-            c.insert(make_pair(s[i], i));
-            count++;
-            i++;
-            it = c.find(s[i]);
+            charSet.insert(s[i]);
+            count++; i++;
         }
-        if(it != c.end()){ i = it->second + 1; }
-        if(count > longest){ longest = count; }
+        else
+        {
+            if(count > longest){ longest = count; }
+            do
+            { 
+                windowBack++; 
+                charSet.erase(s[windowBack]);
+            }while(s[windowBack] != s[i]);
+            count = i - windowBack - 1;
+        }
     }
+    if(count > longest){ longest = count; }
 
     return longest;
 }
