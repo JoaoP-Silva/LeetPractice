@@ -6,6 +6,7 @@ using namespace std;
 
 double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2)
 {
+    if(nums1.size() > nums2.size()){ return findMedianSortedArrays(nums2, nums1); }
     //Checking if one or both of the vectors are empty
     vector<int> vecPtr, other;
     if(nums1.size() == 0 && nums2.size() == 0){ return NULL; }
@@ -17,45 +18,13 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2)
         if(vecPtr.size() % 2 == 0){ return( float(vecPtr[i - 1] + vecPtr[i]) / 2); } 
         else{ return vecPtr[i]; }
     }
-
-    //Checking special cases when one of both vectors are singular
-    if(nums1.size() == 1 && nums2.size() == 1)
-    {
-        return(float(nums1[0] + nums2[0]) / 2);
-    }
-    if( nums1.size() == 1 || nums2.size() == 1)
-    {
-        //Generalizes the name of the unique vector as "other", while the vector with more than one element is
-        // referenced by the "vecPtr".
-        if(nums1.size() == 1){ vecPtr = nums2; other = nums1; }
-        else { vecPtr = nums1; other = nums2; }
-        int i = vecPtr.size() / 2;  
-
-        if(vecPtr.size() % 2 == 1)
-        {
-            if( vecPtr[i - 1] < other[0] )
-            {
-                if(vecPtr[i] < other[0]){ return float(vecPtr[i - 1] + vecPtr[i]) / 2; }
-                else{ return float(vecPtr[i - 1] + other[0]) / 2; }
-            }
-        }
-        else
-        {
-            if(vecPtr[i - 1] < other[0])
-            {
-                if(vecPtr[i] > other[0]){ return other[0]; }
-                else{ return vecPtr[i]; }
-            }
-            else{ return vecPtr[i - 1]; }
-        }
-    }
     
-    int midArr1, minArr1 = 0, maxArr1 = nums1.size() - 1;
+    int midArr1, minArr1 = 0, maxArr1 = nums1.size();
     int midArr2;
     
     int partitionSiz = (nums1.size() + nums2.size()) / 2;
     midArr1 = nums1.size() / 2;
-    midArr2 = partitionSiz - midArr1;
+    midArr2 = (nums1.size() + nums2.size() + 1) / 2 - midArr1;
 
     bool ok = 0;
 
@@ -67,7 +36,7 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2)
             {  
                 maxArr1 = midArr1 - 1;
                 midArr1 = (minArr1 + maxArr1 + 1) / 2;
-                midArr2 = partitionSiz - midArr1;
+                (nums1.size() + nums2.size() + 1) / 2 - midArr1;
             }
             else { ok = 1; }
         }
@@ -81,7 +50,7 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2)
 
                 minArr1 = midArr1 + 1;
                 midArr1 = (minArr1 + maxArr1 + 1) / 2;
-                midArr2 = partitionSiz - midArr1;
+                midArr2 = (nums1.size() + nums2.size() + 1) / 2 - midArr1;
             }
         }
 
@@ -113,7 +82,7 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2)
         if(midArr1 == 0){ lMostArr1 = INT_MIN; }
         else { lMostArr1 = nums1[midArr1 - 1]; }
         if(midArr2 == 0){ lMostArr2 = INT_MIN; }
-        else { lMostArr2 = nums1[midArr2 - 1]; }
+        else { lMostArr2 = nums2[midArr2 - 1]; }
 
         median = max(lMostArr1, lMostArr2);
     }
@@ -123,8 +92,8 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2)
 
 int main()
 {
-    vector<int> a = {1, 2};
-    vector<int> b = {1, 2, 3};
+    vector<int> a = {3};
+    vector<int> b = {-2, -1};
 
     float f = findMedianSortedArrays(a, b);
     cout << "A resposta e: " << f << endl;
