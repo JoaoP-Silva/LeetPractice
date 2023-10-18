@@ -19,7 +19,7 @@ string longestPalindrome(string s)
         {
             if(s[l] == s[r])
             {
-                if(r - l + 1> biggerSubs)
+                if(r - l + 1 > biggerSubs)
                 {
                     resR = r; resL = l;
                     biggerSubs = r - l + 1;
@@ -33,7 +33,7 @@ string longestPalindrome(string s)
         {
             if(s[l] == s[r])
             {
-                if(r - l + 1> biggerSubs)
+                if(r - l + 1 > biggerSubs)
                 {
                     resR = r; resL = l;
                     biggerSubs = r - l + 1;
