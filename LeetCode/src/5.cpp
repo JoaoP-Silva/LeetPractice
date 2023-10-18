@@ -5,101 +5,52 @@
 using namespace std;
 
 string longestPalindrome(string s) 
-{  
-    if(s.size() <= 1){ return s; }
-    
-    int bigger = 1, bigR = 0, bigL = 0;
+{ 
+    int siz = s.size();
 
-    int median; 
-    if(s.size() % 2){ median = s.size()/2; }
-    else median = s.size()/2 - 1;
+    if(siz == 1){ return s; }
 
-    int growCounter = 1;
-    for(int i = 0; i < s.size(); i++)
+    //Pointers for the result
+    int resR = 0, resL = 0, biggerSubs = 1;
+    for(int i = 0; i < siz; i++)
     {
-        if(i <= median)
+        //Even substrings
+        for(int l = i, r = i + 1; r < siz && l >= 0; l--, r++)
         {
-            int count = 0, lptr = i, rptr = i;
-            bool alternate = 1;
-            while(count < growCounter)
+            if(s[l] == s[r])
             {
-                if(alternate)
+                if(r - l + 1> biggerSubs)
                 {
-                    rptr++;
-                    alternate = ~alternate;  
-                    if(s[rptr] == s[lptr])
-                    {
-                        if(rptr - lptr > bigger)
-                        {
-                            bigR = rptr; bigL = lptr;
-                        }
-                    }
-                    else break;
+                    resR = r; resL = l;
+                    biggerSubs = r - l + 1;
                 }
-                else
-                {
-                    lptr--;
-                    alternate = ~alternate;
-                    if(s[rptr] == s[lptr])
-                    {
-                        if(rptr - lptr > bigger)
-                        {
-                            bigR = rptr; bigL = lptr;
-                        }
-                    }
-                    else break;
-                }
-
-                if(growCounter == 1){ growCounter = 2; }
-                else growCounter += 2;
             }
+            else break;
         }
 
-        else
+        //Odd substrings 
+        for(int l = i - 1, r = i + 1; r < siz && l >= 0; l--, r++)
         {
-            int count = 0, lptr = i, rptr = i;
-            bool alternate = 0;
-            while(count < growCounter)
+            if(s[l] == s[r])
             {
-                if(alternate)
+                if(r - l + 1> biggerSubs)
                 {
-                    rptr++;
-                    alternate = ~alternate;  
-                    if(s[rptr] == s[lptr])
-                    {
-                        if(rptr - lptr > bigger)
-                        {
-                            bigR = rptr; bigL = lptr;
-                        }
-                    }
-                    else break;
+                    resR = r; resL = l;
+                    biggerSubs = r - l + 1;
                 }
-                else
-                {
-                    lptr--;
-                    alternate = ~alternate;
-                    if(s[rptr] == s[lptr])
-                    {
-                        if(rptr - lptr > bigger)
-                        {
-                            bigR = rptr; bigL = lptr;
-                        }
-                    }
-                    else break;
-                }
-
-                if(growCounter == 2){ growCounter = 1; }
-                else growCounter -= 2;
             }
-        }     
+            else break;
+        }
     }
+
+    string res(s, resL, biggerSubs);
+    return res;
 
 }
 
 int main()
 {   
-    char buff[100];
-    cin >> buff;
+    char buff[100] = "cbbd";
     string a(buff);
     string res = longestPalindrome(a);
     cout << res;
