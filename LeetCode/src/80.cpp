@@ -17,16 +17,15 @@ int removeDuplicates(vector<int>& nums)
     if(uniquePtr == nums.size()) return replacePtr;
     
     int flag = 0;
-    while(replacePtr < nums.size() && uniquePtr < nums.size())
+    while(uniquePtr < nums.size())
     {
-        int currReplace = replacePtr, currUnique = uniquePtr;
-        while(currReplace <= currUnique && uniquePtr < nums.size())
+        while(replacePtr <= uniquePtr && uniquePtr < nums.size())
         {
-            nums[currReplace] = nums[uniquePtr];
+            nums[replacePtr] = nums[uniquePtr];
             if(uniquePtr == nums.size() - 1)nums[uniquePtr] = INT_MIN;
-            if(uniquePtr < nums.size() - 1 && nums[uniquePtr] == nums[uniquePtr + 1]) uniquePtr++;
-            else for(; uniquePtr < nums.size() && nums[uniquePtr] <= nums[replacePtr]; uniquePtr++);
-            currReplace++;
+            if(uniquePtr < nums.size() - 1 && !flag &&nums[uniquePtr] == nums[uniquePtr + 1]){uniquePtr++; flag = 1;}
+            else {for(; uniquePtr < nums.size() && nums[uniquePtr] <= nums[replacePtr]; uniquePtr++); flag = 0;}
+            replacePtr++;
         }
         for(; replacePtr < nums.size() && nums[replacePtr] > nums[replacePtr - 2]; replacePtr++);
     }
