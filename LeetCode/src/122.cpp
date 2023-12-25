@@ -15,6 +15,6 @@ int maxProfit(vector<int>& prices)
         if(currProfit > 0) acc += currProfit;
         else{ maxProfit += acc; acc = 0; }
     }
-
+    maxProfit += acc;
     return maxProfit;
 }
