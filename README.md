@@ -1,4 +1,4 @@
-# LeetPratice
+# LeetPractice
 My implementations for leetcode problems and cracking the coding interview questions  in c++.
 
 # Files
